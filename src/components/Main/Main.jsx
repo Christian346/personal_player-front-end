@@ -6,7 +6,7 @@ function Main(){
     return(
         <main>
           <VideoSearchResults />
-          <MySavedVideos />
+          <MySavedVideos/>
         </main>
     )
 }
