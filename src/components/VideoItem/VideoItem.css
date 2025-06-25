@@ -1,0 +1,17 @@
+.VideoItem__single-video{
+    height: 300px;
+    width: 250px;
+}
+.VideoItem__iframe-container{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+.VideoItem__button{
+    width: 60px;
+    height:30px;
+    color:white;
+    background-color:rgb(22, 6, 6);
+    border-radius: 5px;
+
+}

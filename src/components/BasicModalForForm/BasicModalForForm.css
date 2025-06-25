@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #0000004d;
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +16,8 @@
   }
   
   .modal__content {
-    background-color: #fff;
+    color:white;
+    background-image: linear-gradient(to right top, #cad16b, #472f27, #452a25, #432624, #412124, #6c3039, #994051, #c94f6c, #fb5f89);
     position: relative;
     padding: 28px 28px 36px;
     max-width: 496px;
@@ -107,7 +108,7 @@
     justify-content: center;
     align-items: center;
     padding: 8px 16px;
-    /*margin-top: 12px;*/
+    margin-top: 12px;
   }
   
   .modal__submit:hover{

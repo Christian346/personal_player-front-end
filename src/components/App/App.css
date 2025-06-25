@@ -1,10 +1,11 @@
 .page{
-    background-color:#F3F3F3;
+    background-image: linear-gradient(to right top, #cad16b, #b6a154, #987544, #724f37, #472f27, #452a25, #432624, #412124, #6c3039, #994051, #c94f6c, #fb5f89);
 }
 .page__content{
     max-width: 1360px;
     margin:0 auto;
     padding:0px 20px;
-    margin:5px 0px
+    margin:5px 0px;
+    color:white;
    
 }
