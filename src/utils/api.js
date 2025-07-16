@@ -1,33 +1,47 @@
-// AIzaSyAuyuThRw5e1oEc5YKJeEMkHA61D1iBfxY; //API KEY
+import avatarImg from "../assets/user.jpg";
 
-//https://console.cloud.google.com/apis/api/youtube.googleapis.com/credentials?inv=1&invt=Ab0dYA&project=sprint-15-fullstack-app
+export const baseUrl = function handleResponse(res) {
+  return res.ok ? res.json() : Promise.reject(`Error : ${res.status}`);
+};
 
-//YouTube Data API v3 (Official)
-
-export const baseUrl = 
-
-function handleResponse(res){
-    return res.ok ? res.json(): Promise.reject(`Error : ${res.status}`);
-
+export function addVideo(video) {
+return new Promise((resolve, reject)=>{
+  resolve({
+    ...video, // which unpacks all properties for videos allowing to have the full object,
+    _id: new Date(), // simulate a random id
+  })
+})
 }
 
-function getVideos(){
-    return fetch().then((res)=> handleResponse(res))
+export function deleteVideo(id) {
+ return new Promise((resolve, reject)=>{
+  resolve({
+    message:`this ${id} was deleted succesfully`
+  })
+ })
 }
 
-function addVideo(/*properties needed and a token */){
+export const getUserInfo = (token) => {
+  return new Promise((resolve, reject) => {
+    resolve({
+      email: "user@hotmail.com",
+      avatar: avatarImg,
+      name: "some username",
+    }); // avoid using password in the response from the backend  // this is a pretend backend response
+  });
+  // return fetch(``, {});
+};
 
-}
+export const setUserInfo = ({ name, imageUrl }, token) => {
+  return fetch(``, {});
+};
 
-function deleteVideo(/*id and token */){
+//2 request
 
-}
-
-
-export const getUserInfo = (token)=>{
-return fetch(``,{})
-}
-
-export const setUserInfo = ({name,imageUrl}, token) =>{
-    return fetch(``,{})
-}
+//the first a function that sends the email and password and it gives back an authorization token that i will save in the front
+//and ill have to save it on local storage
+export const logIn = (email, password) => {
+  return new Promise((resolve, reject) => {
+    resolve({ token: "some token" });
+  });
+};

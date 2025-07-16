@@ -1,17 +1,21 @@
-.VideoSearchResults__container{
-    background-color: rgba(255,255,255,.1);
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-    align-items: center;
-   
+.VideoSearchResults__container {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+ 
 }
-.VideoSearchResults__list{
-    display: flex;
-    gap: 10px;
-    width:90% ;
+.VideoSearchResults__list {
+  display: flex;
+  gap: 5px;
+  width: 100%;
 }
 
-.slick-slider {/*this is a class from the 3rd party library slick component*/
-    width: 100%;
+.slick-slider {
+  /*this is a class from the 3rd party library slick component*/
+  width: 100%;
 }
+

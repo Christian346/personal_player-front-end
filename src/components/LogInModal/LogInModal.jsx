@@ -2,8 +2,14 @@ import BasicModalForForm from "../BasicModalForForm/BasicModalForForm";
 
 function LogInModal({
     isOpen,
-    handleCloseActiveModal
+    handleCloseActiveModal,
+    onLogin
 }){
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      onLogin()
+    }
     return (
       <BasicModalForForm
         titleText="Log In"
@@ -12,6 +18,8 @@ function LogInModal({
         // isOpen={activeModal === "add-garment"}
         handleCloseActiveModal={handleCloseActiveModal}
         isOpen={isOpen}
+        // we need to add an on submit prop for the modal to receive it 
+        onSubmit={handleSubmit}
       >
         <label htmlFor="email" className="modal__label">
           Email*{" "}

@@ -2,19 +2,18 @@ import './MySavedVideos.css';
 import videoList from '../../utils/constant'; 
 import VideoItem from '../VideoItem/VideoItem';
 
-function MySavedVideos({apiVideos ,buttonText}){
-
+function MySavedVideos({apiVideos ,buttonText, savedVideos ,handleDeleteVideoFromLibrary, handleAddVideoToLibrary}){
+  console.log()
     return(
         <div className='MySavedVideos__container'>
-          <p>my saved video library put the thumbnails here!</p>
-          
-          
+          <p>my saved video library put the thumbnails here!</p>     
           {
-            apiVideos.map((video, index)=>{
-              return <VideoItem videoData={video} key={index}  buttonText={buttonText}/>;
+            savedVideos.map((video, index)=>{
+              return <VideoItem type={"saved"} isSaved={true} videoData={video} key={index}  buttonText={buttonText} handleDeleteVideoFromLibrary={handleDeleteVideoFromLibrary}/>;
             })
-            /*the videos you add from your search will be show here you will be able to delete them if you want */
-          }
+            
+            //the videos you add from your search will be show here you will be able to delete them if you want 
+          } 
         </div>
     )
 }
