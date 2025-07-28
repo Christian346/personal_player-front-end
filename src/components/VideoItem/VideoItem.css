@@ -1,20 +1,35 @@
-.VideoItem__single-video{
-    height: 300px;
-    width: 250px;
+.VideoItem__single-video {
+  height: 200px;
+  width: 90%;
 }
-.VideoItem__iframe-container{
+.VideoItem__iframe-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.VideoItem__title {
+  width: 240px;
+  height: 50px;
+}
+.videoItem__thumbnail-container {
     display: flex;
     flex-direction: column;
-    gap:5px;
+    align-items: center;
+    text-align: center;
+  }
+  
+.VideoItem__thumbnail {
+  height: 150px;
+  width: 200px;
 }
-.VideoItem__title{
-width: 180px;
-}
-.VideoItem__button{
-    width: 60px;
-    height:40px;
-    color:white;
-    background-color:rgb(22, 6, 6);
-    border-radius: 5px;
 
+.VideoItem__button {
+  width: 60px;
+  height: 40px;
+  color: white;
+  background-color: rgb(22, 6, 6);
+  border-radius: 5px;
 }

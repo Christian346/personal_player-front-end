@@ -64,22 +64,19 @@ function App() {
     //i would pass that updated variable to the library component and show it as prop
     // the delete part would be similar !
   }
- console.log(savedVideos)
+  console.log(savedVideos);
 
   function handleDeleteVideoFromLibrary(idtoDelete) {
     deleteVideo(idtoDelete).then(() => {
-      console.log(`Delete ${idtoDelete}`)
-     
-      setSavedVideos((savedVideos) =>
-        {
-          return savedVideos.filter((savedVideo) => {
-            console.log(savedVideo.id.videoId, idtoDelete);
-            return savedVideo.id.videoId !== idtoDelete;
-          });
-        }
-      );
-    }
-  );
+      console.log(`Delete ${idtoDelete}`);
+
+      setSavedVideos((savedVideos) => {
+        return savedVideos.filter((savedVideo) => {
+          console.log(savedVideo.id.videoId, idtoDelete);
+          return savedVideo.id.videoId !== idtoDelete;
+        });
+      });
+    });
   }
 
   function fetchVideos(searchTerm) {
@@ -135,8 +132,6 @@ function App() {
     //   setVideos(data.videos);
     // });
   }, []);
-
-
 
   useEffect(() => {
     function start() {

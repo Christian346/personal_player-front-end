@@ -9,7 +9,7 @@ function Header({
   handleRegisterBtnClick,
   handleLogInBtnClick,
   handleSearchVideos,
-  logOut
+  logOut,
 }) {
   const { currentUser = {}, isLoggedIn } = useContext(CurrentUserContext);
 
@@ -25,12 +25,11 @@ function Header({
     setSearchTerm(e.target.value);
   }
 
-  function handleSearchSubmit(e){
-  e.preventDefault();
-  handleSearchVideos(searchTerm)
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    handleSearchVideos(searchTerm);
   }
- 
- 
+
   return (
     <header className="header">
       {isLoggedIn ? (
@@ -50,7 +49,9 @@ function Header({
                 change user info
               </button>
 
-              <button className="header__button_logged-in" onClick={logOut}>Log out</button>
+              <button className="header__button_logged-in" onClick={logOut}>
+                Log out
+              </button>
             </div>
           </div>
         </div>

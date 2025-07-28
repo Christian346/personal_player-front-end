@@ -45,3 +45,17 @@ export const logIn = (email, password) => {
     resolve({ token: "some token" });
   });
 };
+
+
+export const RegisterUser = ({email, password, name, avatarImg}) => {
+  return fetch('http://localhost:3001/users',{ // this has to point to the backend 
+    method: "POST",
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      name:name,
+      avatarImg:avatarImg
+    })
+  })
+}

@@ -1,21 +1,25 @@
 .VideoSearchResults__container {
   background-color: rgba(255, 255, 255, 0.1);
-  width: 900px;
+  width: 93%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 5px;
- 
+  gap: 1px;
 }
+
 .VideoSearchResults__list {
+  
   display: flex;
-  gap: 5px;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  max-width: 1200px;
+  margin:0 auto;
 }
 
 .slick-slider {
   /*this is a class from the 3rd party library slick component*/
-  width: 100%;
+  width:100%;
 }
 

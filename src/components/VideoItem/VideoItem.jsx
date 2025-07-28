@@ -18,16 +18,18 @@ function VideoItem({
 
   return (
     <div>
-      <p className="VideoItem__title">{videoData.snippet.title}</p>
       {!showIframe ? (
-        <img
-          src={videoData.snippet.thumbnails.default.url}
-          alt=""
-          width="200px"
-          onClick={() => {
-            setShowIframe(true);
-          }}
-        />
+        <div className="videoItem__thumbnail-container">
+          <p className="VideoItem__title">{videoData.snippet.title}</p>
+          <img
+            src={videoData.snippet.thumbnails.default.url}
+            alt=""
+            className="VideoItem__thumbnail"
+            onClick={() => {
+              setShowIframe(true);
+            }}
+          />
+        </div>
       ) : (
         <div className="VideoItem__iframe-container">
           <iframe
