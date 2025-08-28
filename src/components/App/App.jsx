@@ -9,8 +9,10 @@ import LogInModal from "../LogInModal/LogInModal";
 import CurrentUserContext from "../../utils/CurrentUserContext";
 import stubdata from "../../utils/stubdata";
 import { getVideos } from "../../utils/thirdpartyapi";
-import { getUserInfo, logIn } from "../../utils/api";
+import { getUserInfo} from "../../utils/api";
+import {logIn , registerUser} from '../../utils/authentication'
 import { addVideo, deleteVideo } from "../../utils/api";
+import { getToken, removeToken, storeToken } from "../../utils/token";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
@@ -56,7 +58,8 @@ function App() {
 
   function handleAddVideoToLibrary(video) {
     //we would call the fake api function
-    addVideo(video).then(() => {
+    console.log(video);
+    addVideo(video.id.videoId,token).then(() => {
       setSavedVideos((savedVideos) => [...savedVideos, video]);
     });
 

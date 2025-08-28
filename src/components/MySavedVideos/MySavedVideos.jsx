@@ -12,7 +12,7 @@ function MySavedVideos({
   console.log();
   return (
     <div className="MySavedVideos__container">
-      <p className="MySavedVideos__paragraph">my saved video library put the thumbnails here!</p>
+      <p className="MySavedVideos__paragraph">my saved videos section:</p>
       {
         savedVideos.map((video, index) => {
           return (
