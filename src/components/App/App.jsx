@@ -9,10 +9,11 @@ import LogInModal from "../LogInModal/LogInModal";
 import CurrentUserContext from "../../utils/CurrentUserContext";
 import stubdata from "../../utils/stubdata";
 import { getVideos } from "../../utils/thirdpartyapi";
-import { getUserInfo} from "../../utils/api";
-import {logIn , registerUser} from '../../utils/authentication'
-import { addVideo, deleteVideo } from "../../utils/api";
+import { getUserInfo } from "../../utils/api";
+import { logIn, registerUser } from "../../utils/authentication";
+import { addVideo, deleteVideo, setUserInfo } from "../../utils/api";
 import { getToken, removeToken, storeToken } from "../../utils/token";
+import * as authentication from "../../utils/authentication";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
@@ -38,57 +39,145 @@ function App() {
     setActiveModal("LogInModal");
   };
 
-  function handleLogIn(email, password) {
-    logIn(email, password).then((faketoken) => {
-      //will recieve a token and with that toke we can use that fetch the user object
-      return getUserInfo(faketoken).then((user) => {
-        setUserData(user);
-        setIsLoggedIn(true);
-        localStorage.setItem("token", faketoken);
-        closeActiveModal();
-      });
-    });
-  }
+  // function handleLogIn(email, password) {
+  //   logIn(email, password).then((faketoken) => {
+  //     //will recieve a token and with that toke we can use that fetch the user object
+  //     return getUserInfo(faketoken).then((user) => {
+  //       setUserData(user);
+  //       setIsLoggedIn(true);
+  //       localStorage.setItem("token", faketoken);
+  //       closeActiveModal();
+  //     });
+  //   });
+  // }
 
-  function logOut() {
+  const handleLogIn = ({ email, password }) => {
+    authentication
+      .logIn(email, password)
+      .then((data) => {
+        console.log(data);
+
+        // Verify that a jwt is included before logging the user in.
+        if (data.token) {
+          storeToken(data.token);
+          setUserData(data.user); // save user's data to state
+          setIsLoggedIn(true); // log the user in
+          // navigate("/profile"); // send them to where they need to be?
+          //
+          // console.log(data);
+          closeActiveModal();
+        }
+      })
+      .catch(console.error);
+  };
+
+  const handleLogOut = () => {
+    removeToken();
     setIsLoggedIn(false);
-    setUserData({ username: "", email: "" });
-    localStorage.removeItem("token", faketoken);
+    console.log("testifitworkds");
+  };
+  // function logOut() {
+  //   setIsLoggedIn(false);
+  //   setUserData({ username: "", email: "" });
+  //   localStorage.removeItem("token", faketoken);
+  // }
+
+  function handleRegisterNewUser({ email, password, name, avatar }) {
+    authentication
+      .registerUser(email, password, name, avatar)
+      .then(() => {
+        handleRegisterBtnClick();
+      })
+      .catch(console.error);
   }
 
+  const handleEdit = (data) => {
+    setUserInfo(data, getToken())
+      .then((res) => {
+        setUserData(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    closeActiveModal();
+  };
+  // ---------------------------------------------------------------------
   function handleAddVideoToLibrary(video) {
-    //we would call the fake api function
-    console.log(video);
-    addVideo(video.id.videoId,token).then(() => {
-      setSavedVideos((savedVideos) => [...savedVideos, video]);
-    });
-
-    //then i would have to update the state variable by calling its setter
-    //i would pass that updated variable to the library component and show it as prop
-    // the delete part would be similar !
+    //console.log(video);
+    const videoObject = {
+      title: /*video.snippet*/video.title, 
+      thumbnail: video/*.snippet.thumbnails.default.url*/.thumbnail,
+      videoIdForUrl: video.youtubeVideoId/*id.videoId*/
+    };
+    //console.log(videoObject);
+    //console.log("trying to add video");
+    addVideo(videoObject, getToken())
+      //console.log(savedVideos)
+      .then((response) => {
+        console.log(response.data)
+        if (response.data) {
+          setSavedVideos((savedVideos) => [
+            response.data,
+            ...savedVideos /*video*/,
+          ]);
+        }
+        //console.log(response); //setSavedVideos((savedVideos) => [...savedVideos, video]);
+      })
+ //  .then((addedVideoResponse) => {//   console.log(addedVideoResponse)//    setSavedVideos([//     ...savedVideos,//     addedVideoResponse.data//    //    // (savedVideos) => [...savedVideos, video]//   );/*})*/ `` 
+   .catch((error) => {
+        console.log(error);
+      });
+    // setSavedVideos([ //   videoResponse.data, ...videos// ])
+    /*  setSavedVideos((savedVideos) => [...savedVideos, videos])// setSavedVideos([//   videoResponse.data, ...videos// ]) */
+    //we would call the fake api function//then i would have to update the state variable by calling its setter//i would pass that updated variable to the library component and show it as prop// the delete part would be similar !
   }
-  console.log(savedVideos);
+  
+  
 
   function handleDeleteVideoFromLibrary(idtoDelete) {
-    deleteVideo(idtoDelete).then(() => {
-      console.log(`Delete ${idtoDelete}`);
+    console.log(idtoDelete);
+    deleteVideo(idtoDelete, getToken())
+    .then(
+      () => {
+            const fileteredVideos = savedVideos.filter(
+        (savedVideo)=> {return savedVideo._id == idtoDelete}
+      );
+      setSavedVideos(fileteredVideos);
+      // console.log(`Delete ${idtoDelete}`);// setSavedVideos((savedVideos) => { //   return savedVideos.filter((savedVideo) => { //     console.log(savedVideo.id.videoId, idtoDelete);//     return savedVideo.id.videoId !== idtoDelete;
+        }).catch((error) => {
+        console.log(error);
+      });   
+  }
+  //-------------------
+  function getVideosFromBackend(){
+    getVideos().then((res)=>{
+      console.log(res.items)
+      if (res.items) {
+        const standardizedVideos = res.items.map((item) =>
+          standarizeVideosResponse(item)
+        );
+        setSavedVideos(standardizedVideos /*res.items*/ /*items.id */ /*.videos*/);
+      }
 
-      setSavedVideos((savedVideos) => {
-        return savedVideos.filter((savedVideo) => {
-          console.log(savedVideo.id.videoId, idtoDelete);
-          return savedVideo.id.videoId !== idtoDelete;
-        });
-      });
-    });
+     // setSavedVideos(res.items);
+    }).catch(err => console.log(err))
   }
 
+  //----------------------------
   function fetchVideos(searchTerm) {
     console.log(searchTerm);
     setLoading(true);
 
     if (searchTerm) {
       getVideos(searchTerm).then((res) => {
-        setVideos(res.items /*.videos*/);
+       // console.log(res.items)
+        if(res.items){
+          const standardizedVideos = res.items.map((item) =>
+            standarizeVideosResponse(item)
+          );
+            setVideos(standardizedVideos/*res.items*/ /*items.id */ /*.videos*/);
+        }
+     
         setLoading(false);
       });
     } else {
@@ -109,6 +198,23 @@ function App() {
     //}
   }
 
+  function standarizeVideosResponse(videoObject){
+    //console.log(videoObject)
+    const formattedVideo = {}
+    const { snippet } = videoObject
+    formattedVideo.title = snippet?.title;
+    formattedVideo.thumbnail = snippet.thumbnails.default.url;
+    formattedVideo.youtubeVideoId = videoObject.id.videoId;
+    /// get all needed properties
+
+    return formattedVideo
+
+  }
+
+  useEffect(()=>{
+     getVideosFromBackend();
+  },[isLoggedIn])
+
   useEffect(() => {
     function loadInitialVideos() {
       const useStubInitialVideos = true; //process.env.NODE_ENV !== "production";
@@ -119,13 +225,18 @@ function App() {
         return new Promise((resolve, reject) => {
           resolve(stubdata);
         }).then((res) => {
-          setVideos(res.items);
+          //console.log(">>INITIAL DATA", res.items);
+
+          // iterate through res.items, format each video object
+          const standardizedVideos = res.items.map(item => standarizeVideosResponse(item))
+
+          setVideos(/*res.items*/ standardizedVideos);
           setLoading(false);
         });
       } else {
         return getVideos("music video").then((res) => {
           console.log(res);
-          setVideos(res.items); // you could map each item into a different representa
+          setVideos(standarizeVideosResponse/*res.items*/); // you could map each item into a different representa
           setLoading(false);
         });
       }
@@ -166,7 +277,7 @@ function App() {
         })
         .then(
           function (response) {
-            console.log(response);
+            // console.log(response);
           },
           function (reason) {
             console.log("Error: ", reason /*.result.error.message*/);
@@ -188,7 +299,7 @@ function App() {
             handleRegisterBtnClick={handleRegisterBtnClick}
             handleLogInBtnClick={handleLogInBtnClick}
             handleSearchVideos={fetchVideos}
-            logOut={logOut}
+            logOut={handleLogOut}
           />
           {/*Routes with route and protectedRouter its switch between pages */}
 
@@ -208,7 +319,7 @@ function App() {
           <ProfileEditModal
             handleCloseActiveModal={closeActiveModal}
             isOpen={activeModal === "ProfileEditModal"}
-            // onEdit={handleEdit}
+            onEdit={handleEdit}
           />
         )}
 
@@ -216,7 +327,7 @@ function App() {
           <RegisterModal
             handleCloseActiveModal={closeActiveModal}
             isOpen={activeModal === "RegisterModal"}
-            // onEdit={handleEdit}
+            onRegister={handleRegisterNewUser}
           />
         )}
 

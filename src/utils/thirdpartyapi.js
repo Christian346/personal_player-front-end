@@ -8,7 +8,7 @@ function getVideos(searchTerm) {
   return fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&maxResults=6&key=AIzaSyAuyuThRw5e1oEc5YKJeEMkHA61D1iBfxY`
   ).then((data)=>{
-    console.log(data)
+    //console.log(data)
     return data.json();
   }
   )

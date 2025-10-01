@@ -4,7 +4,7 @@ import "./ProfileEditModal.css";
 function ProfileEditModal ({
     handleCloseActiveModal ,
     isOpen,
-   // onEdit
+    onEdit
 }) {
 
     return (
@@ -15,6 +15,7 @@ function ProfileEditModal ({
         // isOpen={activeModal === "add-garment"}
         handleCloseActiveModal={handleCloseActiveModal}
         isOpen={isOpen}
+        onSubmit={onEdit}
         // onSubmit={/*(e) => onAddItem(e, { name })*/ handleSubmit} // to populate data on the onAddItem in App.js
       >
         <label htmlFor="name" className="modal__label">

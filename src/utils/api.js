@@ -1,12 +1,20 @@
-import avatarImg from "../assets/user.jpg";
+// import avatarImg from "../assets/user.jpg";
 
-export const baseUrl = "http://localhost:3001";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "the-site-deployed" //"https://api.chris-wtwr.minecraftnoob.com"
+    : "http://localhost:3001";
 
-function handleResponse(res) {
+export function handleResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Error : ${res.status}`);
 }
 
-export function addVideo(id, token) {
+export function getVideos() {
+  return fetch(`${baseUrl}/videos`) //returns are for using the .then()
+    .then((res) => handleResponse(res));
+}
+
+export function addVideo(videoObject, token) {
   return fetch(`${baseUrl}/videos`, {
     // add authorization: "Bearer token 'embed token in template literal' "
     headers: {
@@ -14,9 +22,12 @@ export function addVideo(id, token) {
       Authorization: `Bearer ${token}`,
     },
     method: "POST",
-    body: JSON.stringify({
-      id, //it's making the about key value the same as the description property
-    }), //accepts an obj as argument and turns into string json formatted.
+    body: JSON.stringify(
+      //{
+      videoObject
+      //id, //it's making the about key value the same as the description property
+      /*}*/
+    ), //accepts an obj as argument and turns into string json formatted.
   }).then((res) => handleResponse(res));
 }
 
@@ -28,11 +39,10 @@ export function addVideo(id, token) {
 // })
 
 export function deleteVideo(id, token) {
- 
- return fetch(`${baseUrl}/videos`, {
-   headers: { Authorization: `Bearer ${token}` },
-   method: "DELETE",
- }).then((res)=> handleResponse(res));
+  return fetch(`${baseUrl}/videos/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    method: "DELETE",
+  }).then((res) => handleResponse(res));
 
   // return new Promise((resolve, reject) => {
   //   resolve({
@@ -81,5 +91,3 @@ export const setUserInfo = ({ name, imageUrl }, token) => {
     }),
   }).then((res) => handleResponse(res));
 };
-
-

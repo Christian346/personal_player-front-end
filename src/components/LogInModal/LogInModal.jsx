@@ -1,15 +1,32 @@
 import BasicModalForForm from "../BasicModalForForm/BasicModalForForm";
+import {useState} from 'react';
 
 function LogInModal({
     isOpen,
     handleCloseActiveModal,
     onLogin
 }){
+  const [logInInfo, setlogInInfo] = useState({
+    email: "",
+    password: ""
+  });
+  //const [password,setPassword] = useState("") // these 2 states are local
+
+   const handleChange = (e)=>{
+    const { name, value } = e.target; // this is looking for the attributes
+
+     setlogInInfo((prevData) => ({
+       ...prevData,
+       [name]: value, // 'email' : 'sdfjsdkf'
+     }));
+  }
+//controlled vs uncontrolled component in react.
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      onLogin()
+      onLogin(logInInfo/*.email , logInInfo.password*/);
     }
+    //default behavior for html for search it
     return (
       <BasicModalForForm
         titleText="Log In"
@@ -29,8 +46,8 @@ function LogInModal({
             className="modal__input"
             id="email"
             placeholder="Email"
-            // value={data.email} // {email} //
-            //  onChange={handleChange} //{handleEmailInput}
+            value={logInInfo.email} // {email} //
+            onChange={handleChange} //{handleEmailInput}
           />
         </label>
 
@@ -43,8 +60,8 @@ function LogInModal({
             className="modal__input"
             id="password"
             placeholder="Password"
-            // value={data.password} //{password} //
-            // onChange={handleChange} //{handlePassword}
+            value={logInInfo.password} //{password} //
+            onChange={handleChange} //{handlePassword}
           />
         </label>
       </BasicModalForForm>

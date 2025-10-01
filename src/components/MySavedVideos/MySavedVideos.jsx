@@ -9,7 +9,7 @@ function MySavedVideos({
   handleDeleteVideoFromLibrary,
   handleAddVideoToLibrary,
 }) {
-  console.log();
+
   return (
     <div className="MySavedVideos__container">
       <p className="MySavedVideos__paragraph">my saved videos section:</p>

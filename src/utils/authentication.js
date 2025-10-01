@@ -1,5 +1,6 @@
 //2 request
-import {baseUrl} from "./api"
+import {baseUrl} from "./api";
+import { handleResponse } from "./api";
 
 //the first a function that sends the email and password and it gives back an authorization token that i will save in the front
 //and ill have to save it on local storage
@@ -20,7 +21,7 @@ export const logIn = (email, password) => {
   // });
 };
 
-export const registerUser = ({ email, password, name, avatarImg }) => {
+export const registerUser = ( email, password, name, avatarImg ) => {
   return fetch("http://localhost:3001/signup", {
     // this has to point to the backend
     method: "POST",
@@ -29,7 +30,7 @@ export const registerUser = ({ email, password, name, avatarImg }) => {
       email: email,
       password: password,
       name: name,
-      avatarImg: avatarImg,
+      avatar: avatarImg,
     }),
-  });
+  }).then((res) => handleResponse(res));
 };

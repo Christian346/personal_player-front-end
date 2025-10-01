@@ -1,6 +1,28 @@
 import BasicModalForForm from "../BasicModalForForm/BasicModalForForm";
+import {useState} from 'react';
+function RegisterModal({ handleCloseActiveModal, isOpen ,onRegister}) {
+  
+  const [userInfo,setUserInfo] = useState({
+    name:"",
+    email:"",
+    password:"",
+    avatar:"",
+  });
 
-function RegisterModal({ handleCloseActiveModal, isOpen }) {
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUserInfo((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const handleSubmit = (e)=>{
+      e.preventDefault();
+      onRegister(userInfo)
+    }
+
+  
   return (
     <div>
       <BasicModalForForm
@@ -10,6 +32,7 @@ function RegisterModal({ handleCloseActiveModal, isOpen }) {
         // isOpen={activeModal === "add-garment"}
         handleCloseActiveModal={handleCloseActiveModal}
         isOpen={isOpen}
+        onSubmit = {handleSubmit}
         // onSubmit={/*(e) => onAddItem(e, { name })*/ handleSubmit} // to populate data on the onAddItem in App.js
       >
         <label htmlFor="name" className="modal__label">
@@ -20,8 +43,8 @@ function RegisterModal({ handleCloseActiveModal, isOpen }) {
             className="modal__input"
             id="name"
             placeholder="Name"
-            //   value={data.name} // {name}
-            //  onChange={handleChange} //{handleNameChange}
+            value={userInfo.name} // {name}
+            onChange={handleChange} //{handleNameChange}
           />
         </label>
         <label htmlFor="email" className="modal__label">
@@ -32,8 +55,8 @@ function RegisterModal({ handleCloseActiveModal, isOpen }) {
             className="modal__input"
             id="email"
             placeholder="Email"
-           // value={data.email} // {email} //
-          //  onChange={handleChange} //{handleEmailInput}
+            value={userInfo.email} // {email} //
+           onChange={handleChange} //{handleEmailInput}
           />
         </label>
 
@@ -46,8 +69,8 @@ function RegisterModal({ handleCloseActiveModal, isOpen }) {
             className="modal__input"
             id="password"
             placeholder="Password"
-           // value={data.password} //{password} //
-           // onChange={handleChange} //{handlePassword}
+            value={userInfo.password} //{password} //
+            onChange={handleChange} //{handlePassword}
           />
         </label>
 
@@ -60,8 +83,8 @@ function RegisterModal({ handleCloseActiveModal, isOpen }) {
             className="modal__input"
             id="avatar"
             placeholder="Avatar Url"
-            //    value={data.avatar} //{avatarUrl}
-            //    onChange={handleChange} //{handleImageUrlChange}
+            value={userInfo.avatar} //{avatarUrl}
+            onChange={handleChange} //{handleImageUrlChange}
           />
         </label>
       </BasicModalForForm>
