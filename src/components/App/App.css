@@ -1,0 +1,16 @@
+.page {
+    background-image: linear-gradient(to right top, #cad16b, #b6a154, #987544, #724f37, #472f27, #452a25, #432624, #412124, #6c3039, #994051, #c94f6c, #fb5f89);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.page__content {
+    width: 100%;
+    max-width: 1360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:0 auto;
+    color:white;  
+}
